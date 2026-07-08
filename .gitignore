@@ -1,0 +1,16 @@
+# Excluir videos y archivos multimedia pesados
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Carpetas del sistema y temporales
+.DS_Store
+Thumbs.db
+node_modules/
+.vscode/
+.idea/
+dist/
+build/
+.vercel/
+*.log
