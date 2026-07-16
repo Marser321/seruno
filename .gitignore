@@ -6,6 +6,7 @@
 
 # Versiones web optimizadas de los testimonios de la landing SER UNO
 !assets/video/testimonials/*.mp4
+!video/testimonials/*.mp4
 
 # Carpetas del sistema y temporales
 .DS_Store
