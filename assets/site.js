@@ -62,6 +62,69 @@
     });
   });
 
+  /* Carrusel lateral de testimonios */
+  document.querySelectorAll('[data-testimonial-carousel]').forEach(function (carousel) {
+    var viewport = carousel.querySelector('[data-carousel-viewport]');
+    var cards = Array.prototype.slice.call(carousel.querySelectorAll('[data-carousel-card]'));
+    var previous = carousel.querySelector('[data-carousel-prev]');
+    var next = carousel.querySelector('[data-carousel-next]');
+    var currentLabel = carousel.querySelector('[data-carousel-current]');
+    var totalLabel = carousel.querySelector('[data-carousel-total]');
+    var ticking = false;
+
+    if (!viewport || !cards.length) return;
+    if (totalLabel) totalLabel.textContent = String(cards.length);
+
+    function activeIndex() {
+      var viewportLeft = viewport.getBoundingClientRect().left;
+      var closestIndex = 0;
+      var closestDistance = Infinity;
+      cards.forEach(function (card, index) {
+        var distance = Math.abs(card.getBoundingClientRect().left - viewportLeft);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+      return closestIndex;
+    }
+
+    function updateCarousel() {
+      var index = activeIndex();
+      if (currentLabel) currentLabel.textContent = String(index + 1);
+      if (previous) previous.disabled = index === 0;
+      if (next) next.disabled = index === cards.length - 1;
+      ticking = false;
+    }
+
+    function goTo(index) {
+      var target = cards[Math.max(0, Math.min(cards.length - 1, index))];
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
+
+    if (previous) previous.addEventListener('click', function () { goTo(activeIndex() - 1); });
+    if (next) next.addEventListener('click', function () { goTo(activeIndex() + 1); });
+    viewport.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(updateCarousel);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    cards.forEach(function (card) {
+      var video = card.querySelector('video');
+      if (!video) return;
+      video.addEventListener('play', function () {
+        cards.forEach(function (otherCard) {
+          var otherVideo = otherCard.querySelector('video');
+          if (otherVideo && otherVideo !== video) otherVideo.pause();
+        });
+      });
+    });
+
+    updateCarousel();
+  });
+
   /* Modal */
   var overlay = document.getElementById('modalOverlay');
   if (overlay) {

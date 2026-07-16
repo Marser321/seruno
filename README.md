@@ -19,4 +19,4 @@ Simplemente conecta este repositorio a tu cuenta de Vercel y el despliegue se re
 * `assets/img/` - Recursos gráficos optimizados.
 
 ## 📹 Videos de Testimonios
-Los vídeos originales en formato MP4 pesan más de 400 MB en total y están excluidos mediante `.gitignore` para no saturar el repositorio ni ralentizar la carga web. En producción, se recomienda subir los vídeos a un servicio de hosting externo (como Vimeo o YouTube) y enlazar el reproductor correspondiente.
+Los nueve originales en 1080p se conservan fuera del repositorio. La landing utiliza copias optimizadas para web en `assets/video/testimonials/`, acompañadas por portadas livianas en `assets/img/testimonials/`. Los videos usan carga diferida (`preload="none"`) para no descargarse al abrir la página.
